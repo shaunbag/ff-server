@@ -1,10 +1,15 @@
 package com.shaunbag.ff_server.model;
 
-public class progress {
+public class Progress {
 
     private String book;
 
     private Integer section;
+
+    public Progress(String book, Integer section) {
+        this.book = book;
+        this.section = section;
+    }
 
     public String getBook() {
         return book;

@@ -1,6 +1,6 @@
 package com.shaunbag.ff_server.controller;
 
-import com.shaunbag.ff_server.dto.characterDto;
+import com.shaunbag.ff_server.model.dto.characterDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.shaunbag.ff_server.model.character;
+import com.shaunbag.ff_server.model.Character;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +20,7 @@ import org.json.JSONObject;
 @CrossOrigin(origins = "http://localhost:3000")
 public class controller {
 
-	public List<character> arr = new ArrayList<character>();
+	public List<Character> arr = new ArrayList<Character>();
 	
 	@GetMapping("/api/all")
 	public ResponseEntity<String> getAll(){
@@ -32,7 +32,7 @@ public class controller {
 	@PostMapping("/api/createcharacter")
 	public ResponseEntity<String> createCharacter(@RequestBody final characterDto characterdto){
 		JSONObject jsonObject = new JSONObject();
-		arr.add(new character(Long.valueOf(arr.size()),
+		arr.add(new Character(Long.valueOf(arr.size()),
 				characterdto.name(),
 				characterdto.skill(),
 				characterdto.luck(),
