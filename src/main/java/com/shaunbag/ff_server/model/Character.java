@@ -1,7 +1,10 @@
 package com.shaunbag.ff_server.model;
 
-public class character {
+import jakarta.persistence.Id;
 
+public class Character {
+
+	@Id
 	private Long id;
 	private String name;
 	private Integer skill;
@@ -9,7 +12,7 @@ public class character {
 	private Integer stamina;
 	private Integer gold;
 
-	public character(Long id, String name, Integer skill, Integer luck, Integer stamina, Integer gold) {
+	public Character(Long id, String name, Integer skill, Integer luck, Integer stamina, Integer gold) {
 		this.id  = id;
 		this.name = name;
 		this.skill = skill;
