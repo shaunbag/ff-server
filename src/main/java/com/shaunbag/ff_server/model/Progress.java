@@ -1,7 +1,14 @@
 package com.shaunbag.ff_server.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "Progress")
 public class Progress {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String book;
 
     private Integer section;
@@ -10,6 +17,7 @@ public class Progress {
         this.book = book;
         this.section = section;
     }
+
 
     public String getBook() {
         return book;
