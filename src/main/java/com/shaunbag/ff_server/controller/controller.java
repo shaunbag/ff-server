@@ -1,13 +1,11 @@
 package com.shaunbag.ff_server.controller;
 
-import com.shaunbag.ff_server.model.dto.characterDto;
+import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.services.CharacterService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.shaunbag.ff_server.model.Character;
 import java.util.ArrayList;
@@ -17,33 +15,40 @@ import org.json.JSONObject;
 
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/api")
 public class controller {
+
+	@Autowired
+	CharacterService characterService;
 
 	public List<Character> arr = new ArrayList<Character>();
 	
-	@GetMapping("/api/all")
+	@GetMapping("/all")
 	public ResponseEntity<String> getAll(){
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("all", arr);
 		return ResponseEntity.ok(jsonObject.toString());
 	}
 	
-	@PostMapping("/api/createcharacter")
-	public ResponseEntity<String> createCharacter(@RequestBody final characterDto characterdto){
+	@PostMapping("/createcharacter")
+	public ResponseEntity<String> createCharacter(@RequestBody final CharacterResponseDto characterdto){
 		JSONObject jsonObject = new JSONObject();
-		arr.add(new Character(Long.valueOf(arr.size()),
+		CharacterCreateDto character = new CharacterCreateDto(
 				characterdto.name(),
 				characterdto.skill(),
 				characterdto.luck(),
 				characterdto.stamina(),
-				characterdto.gold()));
-		
-		jsonObject.put("Characters", arr);
+				characterdto.gold());
+		try {
+			characterService.save(character);
+			jsonObject.put("Success", character);
+		} catch (Exception exception) {
+			jsonObject.put("Error", exception);
+		}
 		return ResponseEntity.ok(jsonObject.toString());
 	}
 	
-	@GetMapping("/api/character/{id}")
+	@GetMapping("/character/{id}")
 	public ResponseEntity<String> getCharacter(@PathVariable int id){
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("Character_name", arr.get(id).getName());

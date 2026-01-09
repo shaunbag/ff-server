@@ -1,7 +1,8 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
-import com.shaunbag.ff_server.model.dto.characterDto;
+import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,23 +22,32 @@ public class CharacterService {
 
     private Optional<Character> getCharacterById(Long id){ return characterRepository.findById(id); }
 
-    public List<characterDto> getAllCharacterDto(){
+    public List<CharacterResponseDto> getAllCharacterDto(){
         return characterRepository.findAll()
                 .stream()
                 .map(this::characterToDto)
                 .toList();
     }
 
-    public characterDto characterToDto(Character character) {
-        characterDto characterDto = new characterDto(
+    public CharacterResponseDto characterToDto(Character character) {
+        return new CharacterResponseDto(
                 character.getId(),
                 character.getName(),
                 character.getSkill(),
                 character.getLuck(),
                 character.getStamina(),
-                character.getGold() 
+                character.getGold()
         );
-        return characterDto;
     }
 
+    public void save(CharacterCreateDto characterCreateDto){
+        Character character = new Character(
+                characterCreateDto.name(),
+                characterCreateDto.skill(),
+                characterCreateDto.luck(),
+                characterCreateDto.stamina(),
+                characterCreateDto.gold()
+        );
+        characterRepository.save(character);
+    }
 }
