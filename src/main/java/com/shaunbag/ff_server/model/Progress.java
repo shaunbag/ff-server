@@ -13,6 +13,10 @@ public class Progress {
 
     private Integer section;
 
+    @ManyToOne
+    @JoinColumn(name = "game_character_id")
+    private Character character;
+
     public Progress(String book, Integer section) {
         this.book = book;
         this.section = section;
@@ -35,4 +39,11 @@ public class Progress {
         this.section = section;
     }
 
+    public Character getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(Character character) {
+        this.character = character;
+    }
 }
