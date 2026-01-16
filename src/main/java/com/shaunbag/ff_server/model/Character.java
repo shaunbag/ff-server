@@ -15,6 +15,10 @@ public class Character {
 	private Integer stamina;
 	private Integer gold;
 
+	// no args constructor required by hibernate
+	protected Character() {
+	}
+
 	public Character(String name, Integer skill, Integer luck, Integer stamina, Integer gold) {
 		this.name = name;
 		this.skill = skill;

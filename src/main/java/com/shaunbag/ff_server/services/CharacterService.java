@@ -29,6 +29,11 @@ public class CharacterService {
                 .toList();
     }
 
+    public CharacterResponseDto getCharacterDtoById(Long id){
+        Character character = characterRepository.getReferenceById(id);
+        return characterToDto(character);
+    }
+
     public CharacterResponseDto characterToDto(Character character) {
         return new CharacterResponseDto(
                 character.getId(),
@@ -40,7 +45,7 @@ public class CharacterService {
         );
     }
 
-    public void save(CharacterCreateDto characterCreateDto){
+    public CharacterResponseDto save(CharacterCreateDto characterCreateDto){
         Character character = new Character(
                 characterCreateDto.name(),
                 characterCreateDto.skill(),
@@ -48,6 +53,8 @@ public class CharacterService {
                 characterCreateDto.stamina(),
                 characterCreateDto.gold()
         );
-        characterRepository.save(character);
+        Character characterSaved = characterRepository.save(character);
+        return characterToDto((characterSaved));
     }
+
 }

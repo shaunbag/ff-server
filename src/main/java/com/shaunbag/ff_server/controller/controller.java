@@ -24,38 +24,27 @@ public class controller {
 	public List<Character> arr = new ArrayList<Character>();
 	
 	@GetMapping("/all")
-	public ResponseEntity<String> getAll(){
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("all", arr);
-		return ResponseEntity.ok(jsonObject.toString());
+	public ResponseEntity<List<CharacterResponseDto>> getAll(){
+		List<CharacterResponseDto> characterResponseDtos = characterService.getAllCharacterDto();
+		return ResponseEntity.ok(characterResponseDtos);
 	}
 	
 	@PostMapping("/createcharacter")
-	public ResponseEntity<String> createCharacter(@RequestBody final CharacterResponseDto characterdto){
-		JSONObject jsonObject = new JSONObject();
+	public ResponseEntity<CharacterResponseDto> createCharacter(@RequestBody final CharacterCreateDto characterCreateDto){
 		CharacterCreateDto character = new CharacterCreateDto(
-				characterdto.name(),
-				characterdto.skill(),
-				characterdto.luck(),
-				characterdto.stamina(),
-				characterdto.gold());
-		try {
-			characterService.save(character);
-			jsonObject.put("Success", character);
-		} catch (Exception exception) {
-			jsonObject.put("Error", exception);
-		}
-		return ResponseEntity.ok(jsonObject.toString());
+				characterCreateDto.name(),
+				characterCreateDto.skill(),
+				characterCreateDto.luck(),
+				characterCreateDto.stamina(),
+				characterCreateDto.gold());
+		CharacterResponseDto characterResponseDto = characterService.save(character);
+		return ResponseEntity.ok(characterResponseDto);
 	}
 	
 	@GetMapping("/character/{id}")
-	public ResponseEntity<String> getCharacter(@PathVariable int id){
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("Character_name", arr.get(id).getName());
-		jsonObject.put("Character_luck", arr.get(id).getLuck());
-		jsonObject.put("Character_skill", arr.get(id).getSkill());
-		jsonObject.put("Character_stamina", arr.get(id).getStamina());
-		return ResponseEntity.ok(jsonObject.toString());
+	public ResponseEntity<CharacterResponseDto> getCharacter(@PathVariable Long id){
+		CharacterResponseDto characterResponseDto = characterService.getCharacterDtoById(id);
+		return ResponseEntity.ok(characterResponseDto);
 	}
 	
 }
