@@ -221,6 +221,7 @@ class CharacterServiceTest {
     void testDeleteCharacter(){
         // Arrange
         Long id = 1L;
+        when(characterRepository.existsById(id)).thenReturn(true);
 
         // Act
         characterService.deleteCharacter(id);
