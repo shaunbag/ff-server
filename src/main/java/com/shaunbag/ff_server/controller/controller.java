@@ -46,5 +46,13 @@ public class controller {
 		CharacterResponseDto characterResponseDto = characterService.getCharacterDtoById(id);
 		return ResponseEntity.ok(characterResponseDto);
 	}
+
+	@DeleteMapping("/character/{id}")
+	public ResponseEntity<Void> deleteCharacter(@PathVariable Long id){
+		characterService.deleteCharacter((id));
+		return ResponseEntity.noContent().build();
+	}
+
+
 	
 }

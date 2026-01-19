@@ -216,4 +216,17 @@ class CharacterServiceTest {
         assertNull(result.stamina());
         assertNull(result.gold());
     }
+
+    @Test
+    void testDeleteCharacter(){
+        // Arrange
+        Long id = 1L;
+        when(characterRepository.existsById(id)).thenReturn(true);
+
+        // Act
+        characterService.deleteCharacter(id);
+
+        // Assert
+        verify(characterRepository, times(1)).deleteById(id);
+    }
 }
