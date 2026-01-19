@@ -24,12 +24,13 @@ ff-server/
 │   ├── main/
 │   │   ├── java/com/shaunbag/ff_server/
 │   │   │   ├── configs/
-│   │   │   │   └── SecurityConfig.java      # Security and CORS configuration
+│   │   │   │   └── SecurityConfig.java         # Security and CORS configuration
 │   │   │   ├── controller/
-│   │   │   │   └── controller.java          # REST API endpoints
+│   │   │   │   ├── controller.java             # REST API endpoints
+│   │   │   │   └── GlobalExceptionHandler.java # Global exception handling
 │   │   │   ├── model/
-│   │   │   │   ├── Character.java           # Character entity
-│   │   │   │   ├── Progress.java            # Progress tracking entity
+│   │   │   │   ├── Character.java              # Character entity
+│   │   │   │   ├── Progress.java               # Progress tracking entity
 │   │   │   │   └── dto/
 │   │   │   │       ├── CharacterCreateDto.java
 │   │   │   │       └── CharacterResponseDto.java
@@ -37,12 +38,16 @@ ff-server/
 │   │   │   │   ├── CharacterRepository.java
 │   │   │   │   └── ProgressRepository.java
 │   │   │   └── services/
-│   │   │       ├── CharacterService.java
-│   │   │       └── ProgressService.java
+│   │   │       ├── CharacterService.java       # Character business logic
+│   │   │       └── ProgressService.java        # Progress business logic
 │   │   └── resources/
-│   │       ├── application.properties        # Application configuration
-│   │       └── datasource.properties        # Database configuration
+│   │       ├── application.properties           # Application configuration
+│   │       └── datasource.properties           # Database configuration
 │   └── test/
+│       └── java/com/shaunbag/ff_server/
+│           └── services/
+│               ├── CharacterServiceTest.java    # Character service tests
+│               └── ProgressServiceTest.java     # Progress service tests
 └── build.gradle
 ```
 
@@ -164,6 +169,61 @@ GET /api/character/{id}
 }
 ```
 
+**Error Response (404):**
+If character is not found, returns:
+```json
+"Character Not Found With Id: {id}"
+```
+
+### Update Character
+```http
+POST /api/character/{id}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "name": "UpdatedHero",
+  "skill": 12,
+  "luck": 9,
+  "stamina": 22,
+  "gold": 25
+}
+```
+
+**Response:**
+```json
+{
+  "id": 1,
+  "name": "UpdatedHero",
+  "skill": 12,
+  "luck": 9,
+  "stamina": 22,
+  "gold": 25
+}
+```
+
+**Error Response (404):**
+If character is not found, returns:
+```json
+"No Character Found With Id {id}"
+```
+
+### Delete Character
+```http
+DELETE /api/character/{id}
+```
+
+**Response:**
+- **204 No Content** - Character successfully deleted
+
+**Error Response (404):**
+If character is not found, returns:
+```json
+"Character Not Found With Id: {id}"
+```
+
 ## 🎮 Character Model
 
 Characters have the following attributes:
@@ -174,6 +234,16 @@ Characters have the following attributes:
 - **luck** (Integer) - Character luck level
 - **stamina** (Integer) - Character stamina/health
 - **gold** (Integer) - Character's gold coins
+
+### Character Operations
+
+The API supports full CRUD operations:
+- **Create** - `POST /api/createcharacter`
+- **Read** - `GET /api/all` and `GET /api/character/{id}`
+- **Update** - `POST /api/character/{id}`
+- **Delete** - `DELETE /api/character/{id}`
+
+All operations return appropriate HTTP status codes and error messages when resources are not found.
 
 ## 🔒 Security
 
@@ -192,10 +262,36 @@ The application uses MySQL with JPA/Hibernate:
 
 ## 🧪 Testing
 
-Run tests using:
+The project includes comprehensive unit tests for service layers using JUnit 5 and Mockito.
+
+### Running Tests
+
+Run all tests:
 ```bash
 ./gradlew test
 ```
+
+Run specific test classes:
+```bash
+./gradlew test --tests "CharacterServiceTest"
+./gradlew test --tests "ProgressServiceTest"
+```
+
+### Test Coverage
+
+**CharacterServiceTest** covers:
+- ✅ Getting all characters as DTOs
+- ✅ Getting character by ID
+- ✅ Creating new characters
+- ✅ Updating existing characters
+- ✅ Deleting characters
+- ✅ DTO conversion with various data scenarios
+
+**ProgressServiceTest** covers:
+- ✅ Getting all progress records
+- ✅ Getting progress by player ID
+- ✅ Handling empty results
+- ✅ Multiple progress records scenarios
 
 ## 📝 Configuration
 
@@ -206,6 +302,12 @@ Run tests using:
 
 ### CORS Configuration
 Currently configured to allow requests from `http://localhost:5173`. Update `SecurityConfig.java` to modify allowed origins.
+
+### Exception Handling
+The application includes a `GlobalExceptionHandler` that:
+- Handles `EntityNotFoundException` and returns HTTP 404 status
+- Provides meaningful error messages for missing resources
+- Ensures consistent error responses across all endpoints
 
 
 ## 👤 Author
