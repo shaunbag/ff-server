@@ -53,6 +53,9 @@ public class controller {
 		return ResponseEntity.noContent().build();
 	}
 
-
+	@PostMapping("/character/{id}")
+	public ResponseEntity<CharacterResponseDto> updateCharacter(@PathVariable Long id, @RequestBody CharacterCreateDto characterCreateDto){
+		return ResponseEntity.ok(characterService.updateCharacter(characterCreateDto, id));
+	}
 	
 }

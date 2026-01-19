@@ -229,4 +229,30 @@ class CharacterServiceTest {
         // Assert
         verify(characterRepository, times(1)).deleteById(id);
     }
+
+    @Test
+    void testUpdateCharacter() {
+        // Arrange
+        Long id = 1L;
+        Character existing = new Character("Old", 5, 5, 5, 10);
+        existing.setId(id);
+
+        when(characterRepository.findById(id)).thenReturn(Optional.of(existing));
+        when(characterRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        // Act
+        CharacterCreateDto dto = new CharacterCreateDto(
+                "New",
+                10,
+                9,
+                8,
+                20
+        );
+
+        CharacterResponseDto updated = characterService.updateCharacter(dto, id);
+
+        // Assert
+        assertEquals("New", updated.name());
+        assertEquals(10, updated.skill());
+    }
 }

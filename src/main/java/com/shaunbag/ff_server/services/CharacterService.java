@@ -46,6 +46,7 @@ public class CharacterService {
         );
     }
 
+
     public CharacterResponseDto save(CharacterCreateDto characterCreateDto){
         Character character = new Character(
                 characterCreateDto.name(),
@@ -63,6 +64,22 @@ public class CharacterService {
             throw new EntityNotFoundException(("Character Not Found With Id: " + id));
         }
         characterRepository.deleteById(id);
+    }
+
+    public CharacterResponseDto updateCharacter(CharacterCreateDto characterCreateDto, Long id){
+        Character character = characterRepository.findById(id)
+                .orElseThrow(() ->
+                        new EntityNotFoundException("No Character Found With Id " + id)
+                );
+
+        character.setName(characterCreateDto.name());
+        character.setStamina(characterCreateDto.stamina());
+        character.setSkill(characterCreateDto.skill());
+        character.setGold(characterCreateDto.gold());
+        character.setLuck(characterCreateDto.luck());
+
+        return characterToDto(characterRepository.save(character));
+
     }
 
 }
