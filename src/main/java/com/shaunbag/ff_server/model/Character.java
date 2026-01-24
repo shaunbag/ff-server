@@ -2,6 +2,8 @@ package com.shaunbag.ff_server.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "characters")
 public class Character {
@@ -9,11 +11,49 @@ public class Character {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(name = "name")
 	private String name;
+	@Column(name = "skill")
 	private Integer skill;
+	@Column(name = "luck")
 	private Integer luck;
+	@Column(name = "stamina")
 	private Integer stamina;
+	@Column(name = "gold")
 	private Integer gold;
+
+	@OneToMany(mappedBy = "character")
+	private List<Potion> potions;
+
+	@OneToMany(mappedBy = "character")
+	private List<Equipment> equipment;
+
+	@OneToMany(mappedBy = "character")
+	private List<Progress> progressList;
+
+	public List<Potion> getPotions() {
+		return potions;
+	}
+
+	public void setPotions(List<Potion> potions) {
+		this.potions = potions;
+	}
+
+	public List<Equipment> getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(List<Equipment> equipment) {
+		this.equipment = equipment;
+	}
+
+	public List<Progress> getProgressList() {
+		return progressList;
+	}
+
+	public void setProgressList(List<Progress> progressList) {
+		this.progressList = progressList;
+	}
 
 	// no args constructor required by hibernate
 	protected Character() {
