@@ -16,7 +16,7 @@ public class EquipmentController {
     @Autowired
     private EquipmentService equipmentService;
 
-    @GetMapping("/equipment")
+    @GetMapping("/equipment/{id}")
     public ResponseEntity<List<EquipmentDto>> getAllEquipmentByCharacterId(@PathVariable Long id){
         return ResponseEntity.ok(equipmentService.getEquipmentByCharacterId(id));
     }
@@ -26,7 +26,7 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentService.save(equipmentDto));
     }
 
-    @DeleteMapping("/equipment")
+    @DeleteMapping("/equipment/{id}")
     public ResponseEntity<String> deleteEquipmentById(@PathVariable Long id){
         equipmentService.deleteById(id);
         return ResponseEntity.ok("Equipment Deleted");

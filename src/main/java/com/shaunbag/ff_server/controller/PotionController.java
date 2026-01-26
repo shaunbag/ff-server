@@ -17,12 +17,12 @@ public class PotionController {
     @Autowired
     PotionService potionService;
 
-    @GetMapping("/potions")
+    @GetMapping("/potions/{id}")
     public ResponseEntity<List<PotionDto>> getPotionsByCharacterId(@PathVariable Long id){
         return ResponseEntity.ok(potionService.findPotionByCharacterId(id));
     }
 
-    @DeleteMapping("/potions")
+    @DeleteMapping("/potions/{id}")
     public ResponseEntity<String> deletePotionById(@PathVariable Long id){
         potionService.deletePotionById(id);
         return ResponseEntity.ok("Potion Deleted");

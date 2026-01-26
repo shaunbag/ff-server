@@ -17,7 +17,7 @@ public class ProgressController {
     ProgressService progressService;
 
 
-    @GetMapping("/progress")
+    @GetMapping("/progress/{id}")
     public ResponseEntity<List<ProgressDto>> getAllProgressByCharacterId(@PathVariable Long id){
         return ResponseEntity.ok(progressService.getAllProgressByPlayerId(id));
     }
@@ -27,7 +27,7 @@ public class ProgressController {
         return ResponseEntity.ok(progressService.save(progressDto));
     }
 
-    @DeleteMapping("progress")
+    @DeleteMapping("progress/{id}")
     public ResponseEntity<String> deleteProgressById(@PathVariable Long id){
         progressService.deleteProgressById(id);
         return ResponseEntity.ok("Progress Deleted");
