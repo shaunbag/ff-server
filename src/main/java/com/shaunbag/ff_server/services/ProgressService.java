@@ -1,9 +1,13 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Progress;
+import com.shaunbag.ff_server.model.dto.ProgressDto;
+import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.ProgressRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,12 +15,36 @@ import java.util.Optional;
 @Service
 public class ProgressService {
 
-    ProgressRepository progressRepository;
+    private final ProgressRepository progressRepository;
+    private final CharacterRepository characterRepository;
 
     @Autowired
-    public ProgressService(ProgressRepository progressRepository){ this.progressRepository = progressRepository; }
+    public ProgressService(ProgressRepository progressRepository, CharacterRepository characterRepository){
+        this.progressRepository = progressRepository;
+        this.characterRepository = characterRepository;
+    }
+
+    public ProgressDto progressToDto(Progress progress){
+        return new ProgressDto(progress.getBook(), progress.getSection(), progress.getCharacter().getId());
+    }
 
     public List<Progress> getAllProgress(){ return progressRepository.findAll(); }
 
-    public Optional<Progress> getAllProgressByPlayerId(Long id){ return progressRepository.findById(id);}
+    public List<ProgressDto> getAllProgressByPlayerId(Long id){
+        return progressRepository.findById(id).stream().map(this::progressToDto).toList();
+    }
+
+    @Transactional
+    public ProgressDto save(ProgressDto progressDto){
+        Progress progress = new Progress();
+        progress.setBook(progress.getBook());
+        progress.setSection(progressDto.section());
+        progress.setCharacter(characterRepository.getReferenceById(progressDto.characterId()));
+        return progressToDto(progressRepository.save(progress));
+    }
+
+    @Transactional
+    public void deleteProgressById(Long id){
+        progressRepository.deleteById(id);
+    }
 }

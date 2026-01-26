@@ -9,19 +9,23 @@ public class Progress {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "book")
     private String book;
-
+    @Column(name = "section")
     private Integer section;
 
     @ManyToOne
-    @JoinColumn(name = "game_character_id")
+    @JoinColumn(name = "character_id")
     private Character character;
+
+    public Progress(){
+
+    }
 
     public Progress(String book, Integer section) {
         this.book = book;
         this.section = section;
     }
-
 
     public String getBook() {
         return book;
