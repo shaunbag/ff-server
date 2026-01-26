@@ -2,6 +2,7 @@ package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
 import com.shaunbag.ff_server.model.Progress;
+import com.shaunbag.ff_server.model.dto.ProgressDto;
 import com.shaunbag.ff_server.repository.ProgressRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -84,14 +85,17 @@ class ProgressServiceTest {
         when(progressRepository.findById(1L)).thenReturn(Optional.of(testProgress));
 
         // Act
-        Optional<Progress> result = progressService.getAllProgressByPlayerId(1L);
+        List<ProgressDto> result = progressService.getAllProgressByPlayerId(1L);
 
         // Assert
-        assertTrue(result.isPresent());
-        assertEquals("The Warlock of Firetop Mountain", result.get().getBook());
-        assertEquals(1, result.get().getSection());
-        assertNotNull(result.get().getCharacter());
-        assertEquals("TestHero", result.get().getCharacter().getName());
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+
+        ProgressDto dto = result.get(0);
+        assertEquals("The Warlock of Firetop Mountain", dto.book());
+        assertEquals(1, dto.section());
+        assertNotNull(dto.characterId());
+        assertEquals(1L, dto.characterId());
         verify(progressRepository, times(1)).findById(1L);
     }
 
@@ -101,7 +105,7 @@ class ProgressServiceTest {
         when(progressRepository.findById(999L)).thenReturn(Optional.empty());
 
         // Act
-        Optional<Progress> result = progressService.getAllProgressByPlayerId(999L);
+        List<ProgressDto> result = progressService.getAllProgressByPlayerId(999L);
 
         // Assert
         assertTrue(result.isEmpty());
@@ -119,13 +123,15 @@ class ProgressServiceTest {
         when(progressRepository.findById(2L)).thenReturn(Optional.of(progress));
 
         // Act
-        Optional<Progress> result = progressService.getAllProgressByPlayerId(2L);
+        List<ProgressDto> result = progressService.getAllProgressByPlayerId(2L);
 
         // Assert
-        assertTrue(result.isPresent());
-        assertEquals("Citadel of Chaos", result.get().getBook());
-        assertEquals(50, result.get().getSection());
-        assertEquals(2L, result.get().getCharacter().getId());
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        ProgressDto dto = result.get(0);
+        assertEquals("Citadel of Chaos", dto.book());
+        assertEquals(50, dto.section());
+        assertEquals(2L, dto.characterId());
         verify(progressRepository, times(1)).findById(2L);
     }
 

@@ -20,6 +20,16 @@ public class Equipment {
     @JoinColumn(name = "character_id")
     private Character character;
 
+    public Equipment() {
+
+    }
+
+    public Equipment(String name, String effect, Character character){
+        this.name = name;
+        this.effect = effect;
+        this.character = character;
+    }
+
     public Long getId() {
         return id;
     }

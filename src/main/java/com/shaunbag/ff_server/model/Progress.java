@@ -18,11 +18,14 @@ public class Progress {
     @JoinColumn(name = "character_id")
     private Character character;
 
+    public Progress(){
+
+    }
+
     public Progress(String book, Integer section) {
         this.book = book;
         this.section = section;
     }
-
 
     public String getBook() {
         return book;

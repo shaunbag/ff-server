@@ -11,12 +11,10 @@ import com.shaunbag.ff_server.model.Character;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.JSONObject;
-
 
 @RestController
 @RequestMapping("/api")
-public class controller {
+public class CharacterController {
 
 	@Autowired
 	CharacterService characterService;
