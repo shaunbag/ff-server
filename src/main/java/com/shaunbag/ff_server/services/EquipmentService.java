@@ -24,6 +24,7 @@ public class EquipmentService {
 
     public EquipmentDto equipmentToDto(Equipment equipment){
         return new EquipmentDto(
+                equipment.getId(),
                 equipment.getName(),
                 equipment.getEffect(),
                 equipment.getCharacter().getId()

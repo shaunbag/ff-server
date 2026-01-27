@@ -21,13 +21,13 @@ public class CharacterController {
 
 	public List<Character> arr = new ArrayList<Character>();
 	
-	@GetMapping("/all")
+	@GetMapping("/character")
 	public ResponseEntity<List<CharacterResponseDto>> getAll(){
 		List<CharacterResponseDto> characterResponseDtos = characterService.getAllCharacterDto();
 		return ResponseEntity.ok(characterResponseDtos);
 	}
 	
-	@PostMapping("/createcharacter")
+	@PostMapping("/character")
 	public ResponseEntity<CharacterResponseDto> createCharacter(@RequestBody final CharacterCreateDto characterCreateDto){
 		CharacterCreateDto character = new CharacterCreateDto(
 				characterCreateDto.name(),
