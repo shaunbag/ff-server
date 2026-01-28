@@ -57,9 +57,12 @@ ff-server/
 │   │       └── datasource.properties           # Database configuration
 │   └── test/
 │       └── java/com/shaunbag/ff_server/
+│           ├── FfServerApplicationTests.java      # Spring Boot context & smoke tests
 │           └── services/
-│               ├── CharacterServiceTest.java    # Character service tests
-│               └── ProgressServiceTest.java     # Progress service tests
+│               ├── CharacterServiceTest.java      # Character service tests
+│               ├── EquipmentServiceTest.java      # Equipment service tests
+│               ├── PotionServiceTest.java         # Potion service tests
+│               └── ProgressServiceTest.java       # Progress service tests
 └── build.gradle
 ```
 
@@ -296,9 +299,11 @@ Run all tests:
 ./gradlew test
 ```
 
-Run specific test classes:
+Run specific test classes (examples):
 ```bash
 ./gradlew test --tests "CharacterServiceTest"
+./gradlew test --tests "EquipmentServiceTest"
+./gradlew test --tests "PotionServiceTest"
 ./gradlew test --tests "ProgressServiceTest"
 ```
 
@@ -311,6 +316,16 @@ Run specific test classes:
 - ✅ Updating existing characters
 - ✅ Deleting characters
 - ✅ DTO conversion with various data scenarios
+
+**EquipmentServiceTest** covers:
+- ✅ Mapping `Equipment` entities to `EquipmentDto`
+- ✅ Fetching equipment lists by character ID
+- ✅ Persisting and deleting equipment records
+
+**PotionServiceTest** covers:
+- ✅ Mapping `Potion` entities to `PotionDto`
+- ✅ Fetching potions by character ID
+- ✅ Persisting and deleting potions
 
 **ProgressServiceTest** covers:
 - ✅ Getting all progress records
