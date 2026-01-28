@@ -26,19 +26,19 @@ public class ProgressService {
     }
 
     public ProgressDto progressToDto(Progress progress){
-        return new ProgressDto(progress.getBook(), progress.getSection(), progress.getCharacter().getId());
+        return new ProgressDto(progress.getId(), progress.getBook(), progress.getSection(), progress.getCharacter().getId());
     }
 
     public List<Progress> getAllProgress(){ return progressRepository.findAll(); }
 
     public List<ProgressDto> getAllProgressByPlayerId(Long id){
-        return progressRepository.findById(id).stream().map(this::progressToDto).toList();
+        return progressRepository.findByCharacterId(id).stream().map(this::progressToDto).toList();
     }
 
     @Transactional
     public ProgressDto save(ProgressDto progressDto){
         Progress progress = new Progress();
-        progress.setBook(progress.getBook());
+        progress.setBook(progressDto.book());
         progress.setSection(progressDto.section());
         progress.setCharacter(characterRepository.getReferenceById(progressDto.characterId()));
         return progressToDto(progressRepository.save(progress));
