@@ -4,6 +4,7 @@ import com.shaunbag.ff_server.model.Progress;
 import com.shaunbag.ff_server.model.dto.ProgressDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.ProgressRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,17 @@ public class ProgressService {
     @Transactional
     public void deleteProgressById(Long id){
         progressRepository.deleteById(id);
+    }
+
+    @Transactional
+    public ProgressDto updateProgressById(Long id, ProgressDto progressDto){
+        Progress currentProgress = progressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No Progress Found Matching Id " + id)
+                );
+        currentProgress.setBook(progressDto.book());
+        currentProgress.setSection(progressDto.section());
+
+        progressRepository.save(currentProgress);
+        return progressToDto(currentProgress);
     }
 }

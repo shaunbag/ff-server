@@ -32,4 +32,9 @@ public class ProgressController {
         progressService.deleteProgressById(id);
         return ResponseEntity.ok("Progress Deleted");
     }
+
+    @PostMapping("progress/{id}")
+    public ResponseEntity<ProgressDto> updateProgress(@PathVariable Long id, @RequestBody ProgressDto progressDto){
+        return ResponseEntity.ok(progressService.updateProgressById(id, progressDto));
+    }
 }

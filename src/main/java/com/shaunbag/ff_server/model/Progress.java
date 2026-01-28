@@ -27,6 +27,14 @@ public class Progress {
         this.section = section;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getBook() {
         return book;
     }

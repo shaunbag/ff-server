@@ -160,4 +160,30 @@ class ProgressServiceTest {
         assertEquals(100, result.get(2).getSection());
         verify(progressRepository, times(1)).findAll();
     }
+
+    @Test
+    void testUpdateProgress(){
+        // Arrange
+        Long id = 1L;
+        Progress currentProgress = new Progress();
+        currentProgress.setBook("Port Of Peril");
+        currentProgress.setSection(565);
+        currentProgress.setCharacter(testCharacter);
+        currentProgress.setId(1L);
+
+        when(progressRepository.findById(id)).thenReturn(Optional.of(currentProgress));
+        when(progressRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        // Act
+        ProgressDto dto = new ProgressDto(
+                "Port Of Peril",
+                123,
+                testCharacter.getId()
+        );
+
+        ProgressDto updatedCharacter = progressService.updateProgressById(id, dto);
+
+        // Assert
+        assertEquals(dto.section(), updatedCharacter.section());
+    }
 }
