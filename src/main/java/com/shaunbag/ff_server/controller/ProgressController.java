@@ -27,13 +27,13 @@ public class ProgressController {
         return ResponseEntity.ok(progressService.save(progressDto));
     }
 
-    @DeleteMapping("progress/{id}")
+    @DeleteMapping("/progress/{id}")
     public ResponseEntity<String> deleteProgressById(@PathVariable Long id){
         progressService.deleteProgressById(id);
         return ResponseEntity.ok("Progress Deleted");
     }
 
-    @PostMapping("progress/{id}")
+    @PostMapping("/progress/{id}")
     public ResponseEntity<ProgressDto> updateProgress(@PathVariable Long id, @RequestBody ProgressDto progressDto){
         return ResponseEntity.ok(progressService.updateProgressById(id, progressDto));
     }
