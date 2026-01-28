@@ -25,7 +25,7 @@ dependencies {
 
 	runtimeOnly 'com.mysql:mysql-connector-j'
 
-	implementation 'org.json:json:20211205'
+	implementation 'org.json:json:20231013'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'

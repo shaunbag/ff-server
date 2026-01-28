@@ -82,7 +82,7 @@ class ProgressServiceTest {
     @Test
     void testGetAllProgressByPlayerId_ReturnsProgress() {
         // Arrange
-        when(progressRepository.findById(1L)).thenReturn(Optional.of(testProgress));
+        when(progressRepository.findByCharacterId(1L)).thenReturn(List.of(testProgress));
 
         // Act
         List<ProgressDto> result = progressService.getAllProgressByPlayerId(1L);
@@ -96,20 +96,20 @@ class ProgressServiceTest {
         assertEquals(1, dto.section());
         assertNotNull(dto.characterId());
         assertEquals(1L, dto.characterId());
-        verify(progressRepository, times(1)).findById(1L);
+        verify(progressRepository, times(1)).findByCharacterId(1L);
     }
 
     @Test
     void testGetAllProgressByPlayerId_ReturnsEmptyWhenNotFound() {
         // Arrange
-        when(progressRepository.findById(999L)).thenReturn(Optional.empty());
+        when(progressRepository.findByCharacterId(999L)).thenReturn(List.of());
 
         // Act
         List<ProgressDto> result = progressService.getAllProgressByPlayerId(999L);
 
         // Assert
         assertTrue(result.isEmpty());
-        verify(progressRepository, times(1)).findById(999L);
+        verify(progressRepository, times(1)).findByCharacterId(999L);
     }
 
     @Test
@@ -120,7 +120,7 @@ class ProgressServiceTest {
         character.setId(2L);
         progress.setCharacter(character);
         
-        when(progressRepository.findById(2L)).thenReturn(Optional.of(progress));
+        when(progressRepository.findByCharacterId(2L)).thenReturn(List.of(progress));
 
         // Act
         List<ProgressDto> result = progressService.getAllProgressByPlayerId(2L);
@@ -132,7 +132,7 @@ class ProgressServiceTest {
         assertEquals("Citadel of Chaos", dto.book());
         assertEquals(50, dto.section());
         assertEquals(2L, dto.characterId());
-        verify(progressRepository, times(1)).findById(2L);
+        verify(progressRepository, times(1)).findByCharacterId(2L);
     }
 
     @Test
@@ -159,5 +159,32 @@ class ProgressServiceTest {
         assertEquals("Book 2", result.get(2).getBook());
         assertEquals(100, result.get(2).getSection());
         verify(progressRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testUpdateProgress(){
+        // Arrange
+        Long id = 1L;
+        Progress currentProgress = new Progress();
+        currentProgress.setBook("Port Of Peril");
+        currentProgress.setSection(565);
+        currentProgress.setCharacter(testCharacter);
+        currentProgress.setId(1L);
+
+        when(progressRepository.findById(id)).thenReturn(Optional.of(currentProgress));
+        when(progressRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+        // Act
+        ProgressDto dto = new ProgressDto(
+                1L,
+                "Port Of Peril",
+                123,
+                testCharacter.getId()
+        );
+
+        ProgressDto updatedCharacter = progressService.updateProgressById(id, dto);
+
+        // Assert
+        assertEquals(dto.section(), updatedCharacter.section());
     }
 }
