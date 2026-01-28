@@ -1,10 +1,10 @@
 # FF Server
 
-A Spring Boot REST API server for managing Fighting Fantasy RPG characters and game progress.
+A Spring Boot REST API server for managing Fighting Fantasy RPG characters, equipment, potions, and game progress.
 
 ## 📋 Description
 
-FF Server is a backend application built with Spring Boot that provides RESTful APIs for creating and managing characters in Fighting Fantasy role-playing games. The server handles character creation, retrieval, and tracks game progress through various books and sections.
+FF Server is a backend application built with Spring Boot that provides RESTful APIs for creating and managing characters in Fighting Fantasy role-playing games. The server handles character creation and retrieval, manages per-character equipment and potions, and tracks game progress through various books and sections, exposing a clean DTO-based API that’s consumed by the React frontend.
 
 ## 🛠️ Tech Stack
 
@@ -26,20 +26,32 @@ ff-server/
 │   │   │   ├── configs/
 │   │   │   │   └── SecurityConfig.java         # Security and CORS configuration
 │   │   │   ├── controller/
-│   │   │   │   ├── controller.java             # REST API endpoints
-│   │   │   │   └── GlobalExceptionHandler.java # Global exception handling
+│   │   │   │   ├── CharacterController.java        # Character CRUD endpoints
+│   │   │   │   ├── EquipmentController.java        # Equipment CRUD endpoints
+│   │   │   │   ├── PotionController.java           # Potion CRUD endpoints
+│   │   │   │   ├── ProgressController.java         # Progress CRUD endpoints
+│   │   │   │   └── GlobalExceptionHandler.java     # Global exception handling
 │   │   │   ├── model/
-│   │   │   │   ├── Character.java              # Character entity
-│   │   │   │   ├── Progress.java               # Progress tracking entity
+│   │   │   │   ├── Character.java                  # Character entity
+│   │   │   │   ├── Equipment.java                  # Equipment entity
+│   │   │   │   ├── Potion.java                     # Potion entity
+│   │   │   │   ├── Progress.java                   # Progress tracking entity
 │   │   │   │   └── dto/
 │   │   │   │       ├── CharacterCreateDto.java
-│   │   │   │       └── CharacterResponseDto.java
+│   │   │   │       ├── CharacterResponseDto.java
+│   │   │   │       ├── EquipmentDto.java
+│   │   │   │       ├── PotionDto.java
+│   │   │   │       └── ProgressDto.java
 │   │   │   ├── repository/
 │   │   │   │   ├── CharacterRepository.java
+│   │   │   │   ├── EquipmentRepository.java
+│   │   │   │   ├── PotionRepository.java
 │   │   │   │   └── ProgressRepository.java
 │   │   │   └── services/
-│   │   │       ├── CharacterService.java       # Character business logic
-│   │   │       └── ProgressService.java        # Progress business logic
+│   │   │       ├── CharacterService.java           # Character business logic
+│   │   │       ├── EquipmentService.java           # Equipment business logic
+│   │   │       ├── PotionService.java              # Potion business logic
+│   │   │       └── ProgressService.java            # Progress business logic
 │   │   └── resources/
 │   │       ├── application.properties           # Application configuration
 │   │       └── datasource.properties           # Database configuration
@@ -100,32 +112,22 @@ The server will start on `http://localhost:8080` by default.
 ## 📡 API Endpoints
 
 ### Base URL
+All endpoints are prefixed with:
+
 ```
 http://localhost:8080/api
 ```
 
-### Get All Characters
+### Characters
+
+#### Get All Characters
 ```http
-GET /api/all
+GET /api/character
 ```
 
-**Response:**
-```json
-[
-  {
-    "id": 1,
-    "name": "Hero",
-    "skill": 10,
-    "luck": 8,
-    "stamina": 20,
-    "gold": 15
-  }
-]
-```
-
-### Create Character
+#### Create Character
 ```http
-POST /api/createcharacter
+POST /api/character
 Content-Type: application/json
 ```
 
@@ -140,88 +142,115 @@ Content-Type: application/json
 }
 ```
 
-**Response:**
-```json
-{
-  "id": 1,
-  "name": "Hero",
-  "skill": 10,
-  "luck": 8,
-  "stamina": 20,
-  "gold": 15
-}
-```
-
-### Get Character by ID
+#### Get Character by ID
 ```http
 GET /api/character/{id}
 ```
 
-**Response:**
-```json
-{
-  "id": 1,
-  "name": "Hero",
-  "skill": 10,
-  "luck": 8,
-  "stamina": 20,
-  "gold": 15
-}
-```
-
-**Error Response (404):**
-If character is not found, returns:
-```json
-"Character Not Found With Id: {id}"
-```
-
-### Update Character
+#### Update Character
 ```http
 POST /api/character/{id}
 Content-Type: application/json
 ```
 
-**Request Body:**
-```json
-{
-  "name": "UpdatedHero",
-  "skill": 12,
-  "luck": 9,
-  "stamina": 22,
-  "gold": 25
-}
-```
-
-**Response:**
-```json
-{
-  "id": 1,
-  "name": "UpdatedHero",
-  "skill": 12,
-  "luck": 9,
-  "stamina": 22,
-  "gold": 25
-}
-```
-
-**Error Response (404):**
-If character is not found, returns:
-```json
-"No Character Found With Id {id}"
-```
-
-### Delete Character
+#### Delete Character
 ```http
 DELETE /api/character/{id}
 ```
 
-**Response:**
-- **204 No Content** - Character successfully deleted
+On missing resources, the server returns a `404` with a descriptive message via the global exception handler.
 
-**Error Response (404):**
-If character is not found, returns:
+### Equipment
+
+Equipment items are stored per character and exposed via DTOs.
+
+#### Get Equipment for Character
+```http
+GET /api/equipment/{characterId}
+```
+
+#### Create Equipment
+```http
+POST /api/equipment
+Content-Type: application/json
+```
+
+**Request Body:**
 ```json
-"Character Not Found With Id: {id}"
+{
+  "name": "Sword",
+  "effect": "+1 Skill",
+  "characterId": 1
+}
+```
+
+#### Delete Equipment
+```http
+DELETE /api/equipment/{id}
+```
+
+### Potions
+
+Potions are also stored per character and exposed via DTOs.
+
+#### Get Potions for Character
+```http
+GET /api/potions/{characterId}
+```
+
+#### Create Potion
+```http
+POST /api/potions
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "name": "Stamina Potion",
+  "effect": "Restore 4 Stamina",
+  "characterId": 1
+}
+```
+
+#### Delete Potion
+```http
+DELETE /api/potions/{id}
+```
+
+### Progress
+
+Progress records track which book and section a character is currently on. Multiple records per character are supported.
+
+#### Get Progress for Character
+```http
+GET /api/progress/{characterId}
+```
+
+#### Create Progress Record
+```http
+POST /api/progress
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "book": "City of Thieves",
+  "section": 123,
+  "characterId": 1
+}
+```
+
+#### Update Progress Record
+```http
+POST /api/progress/{id}
+Content-Type: application/json
+```
+
+#### Delete Progress Record
+```http
+DELETE /api/progress/{id}
 ```
 
 ## 🎮 Character Model
@@ -237,13 +266,7 @@ Characters have the following attributes:
 
 ### Character Operations
 
-The API supports full CRUD operations:
-- **Create** - `POST /api/createcharacter`
-- **Read** - `GET /api/all` and `GET /api/character/{id}`
-- **Update** - `POST /api/character/{id}`
-- **Delete** - `DELETE /api/character/{id}`
-
-All operations return appropriate HTTP status codes and error messages when resources are not found.
+The API supports full CRUD operations via `CharacterController` and returns DTOs (`CharacterResponseDto`) to the client. All operations return appropriate HTTP status codes and error messages when resources are not found.
 
 ## 🔒 Security
 
@@ -258,6 +281,8 @@ The application uses Spring Security with:
 The application uses MySQL with JPA/Hibernate:
 - Tables are auto-created/updated via `spring.jpa.hibernate.ddl-auto=update`
 - Character data is stored in the `characters` table
+- Equipment data is stored in the `equipment` table (linked to characters)
+- Potion data is stored in the `potion` table (linked to characters)
 - Progress tracking is stored in the `Progress` table (linked to characters)
 
 ## 🧪 Testing
