@@ -21,6 +21,8 @@ public class Character {
 	private Integer stamina;
 	@Column(name = "gold")
 	private Integer gold;
+	@Column
+	private Integer provisions;
 
 	@OneToMany(mappedBy = "character")
 	private List<Potion> potions;
@@ -31,41 +33,20 @@ public class Character {
 	@OneToMany(mappedBy = "character")
 	private List<Progress> progressList;
 
-	public List<Potion> getPotions() {
-		return potions;
-	}
-
-	public void setPotions(List<Potion> potions) {
-		this.potions = potions;
-	}
-
-	public List<Equipment> getEquipment() {
-		return equipment;
-	}
-
-	public void setEquipment(List<Equipment> equipment) {
-		this.equipment = equipment;
-	}
-
-	public List<Progress> getProgressList() {
-		return progressList;
-	}
-
-	public void setProgressList(List<Progress> progressList) {
-		this.progressList = progressList;
-	}
 
 	// no args constructor required by hibernate
 	protected Character() {
 	}
 
-	public Character(String name, Integer skill, Integer luck, Integer stamina, Integer gold) {
+	public Character(String name, Integer skill, Integer luck, Integer stamina, Integer gold, Integer provisions) {
 		this.name = name;
 		this.skill = skill;
 		this.luck = luck;
 		this.stamina = stamina;
-		this.setGold(gold);
+		this.gold = gold;
+		this.provisions = provisions;
 	}
+
 
 	public Long getId() {
 		return id;
@@ -114,5 +95,38 @@ public class Character {
 	public void setGold(Integer gold) {
 		this.gold = gold;
 	}
-	
+
+	public Integer getProvisions() {
+		return provisions;
+	}
+
+	public void setProvisions(Integer provisions) {
+		this.provisions = provisions;
+	}
+
+	public List<Potion> getPotions() {
+		return potions;
+	}
+
+	public void setPotions(List<Potion> potions) {
+		this.potions = potions;
+	}
+
+	public List<Equipment> getEquipment() {
+		return equipment;
+	}
+
+	public void setEquipment(List<Equipment> equipment) {
+		this.equipment = equipment;
+	}
+
+	public List<Progress> getProgressList() {
+		return progressList;
+	}
+
+	public void setProgressList(List<Progress> progressList) {
+		this.progressList = progressList;
+	}
+
+
 }

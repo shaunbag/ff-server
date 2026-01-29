@@ -35,7 +35,7 @@ class PotionServiceTest {
 
     @BeforeEach
     void setUp() {
-        testCharacter = new Character("TestHero", 10, 8, 20, 15);
+        testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
 
         testPotion = new Potion();

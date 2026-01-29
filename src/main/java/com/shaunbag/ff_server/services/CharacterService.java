@@ -42,7 +42,8 @@ public class CharacterService {
                 character.getSkill(),
                 character.getLuck(),
                 character.getStamina(),
-                character.getGold()
+                character.getGold(),
+                character.getProvisions()
         );
     }
 
@@ -53,7 +54,8 @@ public class CharacterService {
                 characterCreateDto.skill(),
                 characterCreateDto.luck(),
                 characterCreateDto.stamina(),
-                characterCreateDto.gold()
+                characterCreateDto.gold(),
+                characterCreateDto.provisions()
         );
         Character characterSaved = characterRepository.save(character);
         return characterToDto((characterSaved));

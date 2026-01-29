@@ -34,7 +34,8 @@ public class CharacterController {
 				characterCreateDto.skill(),
 				characterCreateDto.luck(),
 				characterCreateDto.stamina(),
-				characterCreateDto.gold());
+				characterCreateDto.gold(),
+				characterCreateDto.provisions());
 		CharacterResponseDto characterResponseDto = characterService.save(character);
 		return ResponseEntity.ok(characterResponseDto);
 	}
