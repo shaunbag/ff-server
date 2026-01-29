@@ -32,7 +32,7 @@ class ProgressServiceTest {
 
     @BeforeEach
     void setUp() {
-        testCharacter = new Character("TestHero", 10, 8, 20, 15);
+        testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
         
         testProgress = new Progress("The Warlock of Firetop Mountain", 1);
@@ -116,7 +116,7 @@ class ProgressServiceTest {
     void testGetAllProgressByPlayerId_WithDifferentId() {
         // Arrange
         Progress progress = new Progress("Citadel of Chaos", 50);
-        Character character = new Character("AnotherHero", 12, 9, 22, 30);
+        Character character = new Character("AnotherHero", 12, 9, 22, 30, 10);
         character.setId(2L);
         progress.setCharacter(character);
         
