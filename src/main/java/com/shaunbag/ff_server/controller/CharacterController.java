@@ -1,7 +1,7 @@
 package com.shaunbag.ff_server.controller;
 
-import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
-import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.dto.CharacterResponseDto;
 import com.shaunbag.ff_server.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

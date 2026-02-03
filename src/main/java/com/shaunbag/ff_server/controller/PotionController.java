@@ -1,7 +1,7 @@
 package com.shaunbag.ff_server.controller;
 
 
-import com.shaunbag.ff_server.model.dto.PotionDto;
+import com.shaunbag.ff_server.dto.PotionDto;
 import com.shaunbag.ff_server.services.PotionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

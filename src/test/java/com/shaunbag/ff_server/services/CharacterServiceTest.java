@@ -1,8 +1,8 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
-import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
-import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.dto.CharacterResponseDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

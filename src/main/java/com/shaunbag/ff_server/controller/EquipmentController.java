@@ -1,7 +1,6 @@
 package com.shaunbag.ff_server.controller;
 
-import com.shaunbag.ff_server.model.Equipment;
-import com.shaunbag.ff_server.model.dto.EquipmentDto;
+import com.shaunbag.ff_server.dto.EquipmentDto;
 import com.shaunbag.ff_server.services.EquipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
