@@ -2,7 +2,7 @@ package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
 import com.shaunbag.ff_server.model.Equipment;
-import com.shaunbag.ff_server.model.dto.EquipmentDto;
+import com.shaunbag.ff_server.dto.EquipmentDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.EquipmentRepository;
 import org.junit.jupiter.api.BeforeEach;

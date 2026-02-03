@@ -2,7 +2,7 @@ package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
 import com.shaunbag.ff_server.model.Progress;
-import com.shaunbag.ff_server.model.dto.ProgressDto;
+import com.shaunbag.ff_server.dto.ProgressDto;
 import com.shaunbag.ff_server.repository.ProgressRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

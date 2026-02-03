@@ -1,17 +1,15 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Progress;
-import com.shaunbag.ff_server.model.dto.ProgressDto;
+import com.shaunbag.ff_server.dto.ProgressDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.ProgressRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProgressService {
