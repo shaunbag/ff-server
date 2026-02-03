@@ -2,7 +2,7 @@ package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
 import com.shaunbag.ff_server.model.Equipment;
-import com.shaunbag.ff_server.model.dto.EquipmentDto;
+import com.shaunbag.ff_server.dto.EquipmentDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.EquipmentRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,7 +36,7 @@ class EquipmentServiceTest {
 
     @BeforeEach
     void setUp() {
-        testCharacter = new Character("TestHero", 10, 8, 20, 15);
+        testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
 
         testEquipment = new Equipment("Sword", "Makes you hit Harder +1", testCharacter);

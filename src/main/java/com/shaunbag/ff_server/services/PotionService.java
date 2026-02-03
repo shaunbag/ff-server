@@ -1,7 +1,7 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Potion;
-import com.shaunbag.ff_server.model.dto.PotionDto;
+import com.shaunbag.ff_server.dto.PotionDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.PotionRepository;
 import org.springframework.beans.factory.annotation.Autowired;

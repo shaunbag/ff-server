@@ -1,7 +1,7 @@
 package com.shaunbag.ff_server.controller;
 
-import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
-import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.dto.CharacterResponseDto;
 import com.shaunbag.ff_server.services.CharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,8 @@ public class CharacterController {
 				characterCreateDto.skill(),
 				characterCreateDto.luck(),
 				characterCreateDto.stamina(),
-				characterCreateDto.gold());
+				characterCreateDto.gold(),
+				characterCreateDto.provisions());
 		CharacterResponseDto characterResponseDto = characterService.save(character);
 		return ResponseEntity.ok(characterResponseDto);
 	}

@@ -1,8 +1,8 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
-import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
-import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.dto.CharacterResponseDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,8 @@ public class CharacterService {
                 character.getSkill(),
                 character.getLuck(),
                 character.getStamina(),
-                character.getGold()
+                character.getGold(),
+                character.getProvisions()
         );
     }
 
@@ -53,7 +54,8 @@ public class CharacterService {
                 characterCreateDto.skill(),
                 characterCreateDto.luck(),
                 characterCreateDto.stamina(),
-                characterCreateDto.gold()
+                characterCreateDto.gold(),
+                characterCreateDto.provisions()
         );
         Character characterSaved = characterRepository.save(character);
         return characterToDto((characterSaved));

@@ -2,7 +2,7 @@ package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
 import com.shaunbag.ff_server.model.Potion;
-import com.shaunbag.ff_server.model.dto.PotionDto;
+import com.shaunbag.ff_server.dto.PotionDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import com.shaunbag.ff_server.repository.PotionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,7 +35,7 @@ class PotionServiceTest {
 
     @BeforeEach
     void setUp() {
-        testCharacter = new Character("TestHero", 10, 8, 20, 15);
+        testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
 
         testPotion = new Potion();

@@ -1,8 +1,8 @@
 package com.shaunbag.ff_server.services;
 
 import com.shaunbag.ff_server.model.Character;
-import com.shaunbag.ff_server.model.dto.CharacterCreateDto;
-import com.shaunbag.ff_server.model.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.dto.CharacterCreateDto;
+import com.shaunbag.ff_server.dto.CharacterResponseDto;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,7 +33,7 @@ class CharacterServiceTest {
 
     @BeforeEach
     void setUp() {
-        testCharacter = new Character("TestHero", 10, 8, 20, 15);
+        testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
         
         testCharacterCreateDto = new CharacterCreateDto(
@@ -41,16 +41,17 @@ class CharacterServiceTest {
             10,
             8,
             20,
-            15
+            15,
+                10
         );
     }
 
     @Test
     void testGetAllCharacterDto_ReturnsListOfDtos() {
         // Arrange
-        Character character1 = new Character("Hero1", 10, 8, 20, 15);
+        Character character1 = new Character("Hero1", 10, 8, 20, 15, 10);
         character1.setId(1L);
-        Character character2 = new Character("Hero2", 12, 9, 22, 20);
+        Character character2 = new Character("Hero2", 12, 9, 22, 20, 10);
         character2.setId(2L);
         List<Character> characters = Arrays.asList(character1, character2);
 
@@ -105,7 +106,7 @@ class CharacterServiceTest {
     @Test
     void testGetCharacterDtoById_WithDifferentId() {
         // Arrange
-        Character character = new Character("AnotherHero", 11, 7, 18, 12);
+        Character character = new Character("AnotherHero", 11, 7, 18, 12, 10);
         character.setId(2L);
         when(characterRepository.getReferenceById(2L)).thenReturn(character);
 
@@ -128,7 +129,8 @@ class CharacterServiceTest {
             testCharacterCreateDto.skill(),
             testCharacterCreateDto.luck(),
             testCharacterCreateDto.stamina(),
-            testCharacterCreateDto.gold()
+            testCharacterCreateDto.gold(),
+                testCharacterCreateDto.provisions()
         );
         savedCharacter.setId(1L);
         
@@ -156,14 +158,16 @@ class CharacterServiceTest {
             15,
             5,
             25,
-            50
+            50,
+                10
         );
         Character savedCharacter = new Character(
             createDto.name(),
             createDto.skill(),
             createDto.luck(),
             createDto.stamina(),
-            createDto.gold()
+            createDto.gold(),
+                createDto.provisions()
         );
         savedCharacter.setId(3L);
         
@@ -201,7 +205,7 @@ class CharacterServiceTest {
     @Test
     void testCharacterToDto_WithNullValues() {
         // Arrange
-        Character characterWithNulls = new Character(null, null, null, null, null);
+        Character characterWithNulls = new Character(null, null, null, null, null, null);
         characterWithNulls.setId(5L);
 
         // Act
@@ -234,7 +238,7 @@ class CharacterServiceTest {
     void testUpdateCharacter() {
         // Arrange
         Long id = 1L;
-        Character existing = new Character("Old", 5, 5, 5, 10);
+        Character existing = new Character("Old", 5, 5, 5, 10, 10);
         existing.setId(id);
 
         when(characterRepository.findById(id)).thenReturn(Optional.of(existing));
@@ -246,7 +250,8 @@ class CharacterServiceTest {
                 10,
                 9,
                 8,
-                20
+                20,
+                10
         );
 
         CharacterResponseDto updated = characterService.updateCharacter(dto, id);

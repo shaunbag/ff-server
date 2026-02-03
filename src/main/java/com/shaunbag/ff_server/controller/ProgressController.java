@@ -1,6 +1,6 @@
 package com.shaunbag.ff_server.controller;
 
-import com.shaunbag.ff_server.model.dto.ProgressDto;
+import com.shaunbag.ff_server.dto.ProgressDto;
 import com.shaunbag.ff_server.services.ProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
