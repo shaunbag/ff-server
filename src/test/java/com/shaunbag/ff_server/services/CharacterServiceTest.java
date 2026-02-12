@@ -3,6 +3,7 @@ package com.shaunbag.ff_server.services;
 import com.shaunbag.ff_server.model.Character;
 import com.shaunbag.ff_server.dto.CharacterCreateDto;
 import com.shaunbag.ff_server.dto.CharacterResponseDto;
+import com.shaunbag.ff_server.model.MyUser;
 import com.shaunbag.ff_server.repository.CharacterRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -25,16 +28,25 @@ class CharacterServiceTest {
     @Mock
     private CharacterRepository characterRepository;
 
+    @Mock
+    private MyUserService myUserService;
+
     @InjectMocks
     private CharacterService characterService;
 
+
     private Character testCharacter;
     private CharacterCreateDto testCharacterCreateDto;
+    private MyUser testUser;
 
     @BeforeEach
     void setUp() {
+        testUser = new MyUser("testuser", "testpassword", LocalDate.now());
+        testUser.setRole("USER");
+        testUser.setId(1L);
         testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
+        testCharacter.setUser(testUser);
         
         testCharacterCreateDto = new CharacterCreateDto(
             "TestHero",
@@ -55,10 +67,11 @@ class CharacterServiceTest {
         character2.setId(2L);
         List<Character> characters = Arrays.asList(character1, character2);
 
-        when(characterRepository.findAll()).thenReturn(characters);
-
+        when(characterRepository.findAllByUserId(1L)).thenReturn(characters);
+        UserDetails mockUser = mock(UserDetails.class);
+        when(myUserService.getMyUserDetails(mockUser)).thenReturn(testUser);
         // Act
-        List<CharacterResponseDto> result = characterService.getAllCharacterDto();
+        List<CharacterResponseDto> result = characterService.getAllCharacterDto(mockUser);
 
         // Assert
         assertNotNull(result);
@@ -67,21 +80,22 @@ class CharacterServiceTest {
         assertEquals(10, result.get(0).skill());
         assertEquals("Hero2", result.get(1).name());
         assertEquals(12, result.get(1).skill());
-        verify(characterRepository, times(1)).findAll();
+        verify(characterRepository, times(1)).findAllByUserId(1L);
     }
 
     @Test
     void testGetAllCharacterDto_ReturnsEmptyList() {
         // Arrange
-        when(characterRepository.findAll()).thenReturn(List.of());
-
+        when(characterRepository.findAllByUserId(1L)).thenReturn(List.of());
+        UserDetails mockUser = mock(UserDetails.class);
+        when(myUserService.getMyUserDetails(mockUser)).thenReturn(testUser);
         // Act
-        List<CharacterResponseDto> result = characterService.getAllCharacterDto();
+        List<CharacterResponseDto> result = characterService.getAllCharacterDto(mockUser);
 
         // Assert
         assertNotNull(result);
         assertTrue(result.isEmpty());
-        verify(characterRepository, times(1)).findAll();
+        verify(characterRepository, times(1)).findAllByUserId(1L);
     }
 
     @Test
@@ -135,9 +149,10 @@ class CharacterServiceTest {
         savedCharacter.setId(1L);
         
         when(characterRepository.save(any(Character.class))).thenReturn(savedCharacter);
+        UserDetails mockUser = mock(UserDetails.class);
 
         // Act
-        CharacterResponseDto result = characterService.save(testCharacterCreateDto);
+        CharacterResponseDto result = characterService.save(testCharacterCreateDto, mockUser);
 
         // Assert
         assertNotNull(result);
@@ -172,9 +187,10 @@ class CharacterServiceTest {
         savedCharacter.setId(3L);
         
         when(characterRepository.save(any(Character.class))).thenReturn(savedCharacter);
+        UserDetails mockUser = mock(UserDetails.class);
 
         // Act
-        CharacterResponseDto result = characterService.save(createDto);
+        CharacterResponseDto result = characterService.save(createDto,mockUser);
 
         // Assert
         assertNotNull(result);
