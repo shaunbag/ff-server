@@ -33,6 +33,9 @@ public class Character {
 	@OneToMany(mappedBy = "character")
 	private List<Progress> progressList;
 
+	@OneToOne
+	private MyUser user;
+
 
 	// no args constructor required by hibernate
 	protected Character() {
@@ -128,5 +131,11 @@ public class Character {
 		this.progressList = progressList;
 	}
 
+	public MyUser getUser() {
+		return user;
+	}
 
+	public void setUser(MyUser user) {
+		this.user = user;
+	}
 }
