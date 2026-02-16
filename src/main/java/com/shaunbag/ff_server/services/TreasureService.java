@@ -41,7 +41,7 @@ public class TreasureService {
         Treasure treasure = new Treasure();
         treasure.setName(treasureDto.name());
         treasure.setValue(treasureDto.value());
-        treasure.setCharacter(characterRepository.getReferenceById(treasure.getId()));
+        treasure.setCharacter(characterRepository.getReferenceById(treasureDto.characterId()));
 
         return treasureToDto(treasureRepository.save(treasure));
     }
