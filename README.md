@@ -26,32 +26,44 @@ ff-server/
 │   │   │   ├── configs/
 │   │   │   │   └── SecurityConfig.java         # Security and CORS configuration
 │   │   │   ├── controller/
+│   │   │   │   ├── AppController.java              # App routing to frontend
 │   │   │   │   ├── CharacterController.java        # Character CRUD endpoints
 │   │   │   │   ├── EquipmentController.java        # Equipment CRUD endpoints
+│   │   │   │   ├── GlobalExceptionHandler.java     # Global exception handling
 │   │   │   │   ├── PotionController.java           # Potion CRUD endpoints
 │   │   │   │   ├── ProgressController.java         # Progress CRUD endpoints
-│   │   │   │   └── GlobalExceptionHandler.java     # Global exception handling
+│   │   │   │   ├── TreasureController.java         # Treasure CRUD endpoints
+│   │   │   │   └── UserController.java             # User registration endpoint
 │   │   │   ├── model/
 │   │   │   │   ├── Character.java                  # Character entity
 │   │   │   │   ├── Equipment.java                  # Equipment entity
+│   │   │   │   ├── MyUser.java                     # User entity for authentication
 │   │   │   │   ├── Potion.java                     # Potion entity
 │   │   │   │   ├── Progress.java                   # Progress tracking entity
+│   │   │   │   ├── Treasure.java                   # Treasure entity
 │   │   │   │   └── dto/
 │   │   │   │       ├── CharacterCreateDto.java
 │   │   │   │       ├── CharacterResponseDto.java
 │   │   │   │       ├── EquipmentDto.java
+│   │   │   │       ├── MyUserDto.java
 │   │   │   │       ├── PotionDto.java
-│   │   │   │       └── ProgressDto.java
+│   │   │   │       ├── ProgressDto.java
+│   │   │   │       └── TreasureDto.java
 │   │   │   ├── repository/
 │   │   │   │   ├── CharacterRepository.java
 │   │   │   │   ├── EquipmentRepository.java
 │   │   │   │   ├── PotionRepository.java
-│   │   │   │   └── ProgressRepository.java
+│   │   │   │   ├── ProgressRepository.java
+│   │   │   │   ├── TreasureRepository.java
+│   │   │   │   └── UserRepository.java
 │   │   │   └── services/
 │   │   │       ├── CharacterService.java           # Character business logic
 │   │   │       ├── EquipmentService.java           # Equipment business logic
+│   │   │       ├── MyUserDetailsService.java       # User authentication service
+│   │   │       ├── MyUserService.java              # User business logic
 │   │   │       ├── PotionService.java              # Potion business logic
-│   │   │       └── ProgressService.java            # Progress business logic
+│   │   │       ├── ProgressService.java            # Progress business logic
+│   │   │       └── TreasureService.java            # Treasure business logic
 │   │   └── resources/
 │   │       ├── application.properties           # Application configuration
 │   │       └── datasource.properties           # Database configuration
@@ -62,7 +74,8 @@ ff-server/
 │               ├── CharacterServiceTest.java      # Character service tests
 │               ├── EquipmentServiceTest.java      # Equipment service tests
 │               ├── PotionServiceTest.java         # Potion service tests
-│               └── ProgressServiceTest.java       # Progress service tests
+│               ├── ProgressServiceTest.java       # Progress service tests
+│               └── TreasureServiceTest.java       # Treasure service tests
 └── build.gradle
 ```
 
@@ -256,6 +269,72 @@ Content-Type: application/json
 DELETE /api/progress/{id}
 ```
 
+### Treasure
+
+Treasure items are stored per character and track valuable finds.
+
+#### Get Treasure for Character
+```http
+GET /api/treasure/{characterId}
+```
+
+#### Create Treasure
+```http
+POST /api/treasure
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "name": "Gold Coin",
+  "value": 100,
+  "characterId": 1
+}
+```
+
+#### Update Treasure
+```http
+POST /api/treasure/{id}
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "name": "Gold Coin",
+  "value": 150,
+  "characterId": 1
+}
+```
+
+#### Delete Treasure
+```http
+DELETE /api/treasure/{id}
+```
+
+### Users
+
+User management endpoints for registration and authentication support.
+
+#### Create User
+```http
+POST /api/user
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "username": "player1",
+  "password": "secretpassword",
+  "role": "USER"
+}
+```
+
+**Response:**
+Returns the created user ID (Long)
+
 ## 🎮 Character Model
 
 Characters have the following attributes:
@@ -273,11 +352,25 @@ The API supports full CRUD operations via `CharacterController` and returns DTOs
 
 ## 🔒 Security
 
-The application uses Spring Security with:
+The application uses Spring Security with form-based authentication and role-based access control:
+
+**Authentication & Authorization:**
+- Form-based login at `/login` endpoint
+- BCrypt password encoding for secure credential storage
+- User details loaded from `MyUserDetailsService` (database-backed)
+- Role-based access control: `USER` role required for `/app/**` and `/api/**` endpoints
+- Session-based authentication (default Spring Security session management)
+
+**CORS & CSRF Protection:**
 - CORS enabled for `http://localhost:5173` (frontend development)
 - CSRF disabled for API endpoints
-- Stateless session management
-- Currently configured to permit all requests (can be customized for production)
+- Allowed methods: GET, POST, PUT, DELETE, OPTIONS
+- Credentials allowed in cross-origin requests
+
+**Public & Protected Routes:**
+- Public routes: `/app`, `/app/index.html`, `/app/static/**`, `/app/js/**`, `/app/css/**`, `/app/assets/**`, `/api/**` (registration endpoint)
+- Protected routes: `/app/**` and `/api/**` endpoints require `USER` role
+- Default redirect after successful login: `/app`
 
 ## 🗄️ Database
 
@@ -287,6 +380,8 @@ The application uses MySQL with JPA/Hibernate:
 - Equipment data is stored in the `equipment` table (linked to characters)
 - Potion data is stored in the `potion` table (linked to characters)
 - Progress tracking is stored in the `Progress` table (linked to characters)
+- Treasure data is stored in the `treasure` table (linked to characters)
+- User data is stored in the `users` table for authentication and user management
 
 ## 🧪 Testing
 
@@ -332,6 +427,13 @@ Run specific test classes (examples):
 - ✅ Getting progress by player ID
 - ✅ Handling empty results
 - ✅ Multiple progress records scenarios
+
+**TreasureServiceTest** covers:
+- ✅ Mapping `Treasure` entities to `TreasureDto`
+- ✅ Fetching treasure by character ID
+- ✅ Saving treasure records
+- ✅ Updating treasure records
+- ✅ Deleting treasure records
 
 ## 📝 Configuration
 
