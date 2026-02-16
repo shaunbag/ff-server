@@ -19,7 +19,8 @@ public class CharacterService {
     CharacterRepository characterRepository;
     private final MyUserService myUserService;
 
-    public CharacterService(CharacterRepository characterRepository, MyUserService myUserService){ this.characterRepository = characterRepository;
+    public CharacterService(CharacterRepository characterRepository, MyUserService myUserService){
+        this.characterRepository = characterRepository;
         this.myUserService = myUserService;
     }
 
