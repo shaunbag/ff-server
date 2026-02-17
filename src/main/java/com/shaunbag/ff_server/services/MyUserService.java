@@ -19,13 +19,13 @@ public class MyUserService {
         this.userRepository = userRepository;
     }
 
-    public Long save(MyUserDto myUserDto){
+    public MyUser save(MyUserDto myUserDto){
         MyUser user = new MyUser();
         user.setUsername(myUserDto.username());
         user.setPassword(myUserDto.password());
         user.setCreated(LocalDate.now());
         user.setRole("USER");
-        return userRepository.save(user).getId();
+        return userRepository.save(user);
     }
 
     public MyUser getMyUserDetails(UserDetails userDetails){
