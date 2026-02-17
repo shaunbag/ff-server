@@ -46,11 +46,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(
                             "/app",
-                            "/app/index.html",
-                            "/app/static/**",
-                            "/app/js/**",
-                            "/app/css/**",
-                            "/app/assets/**",
                             "/api/**",
                             "/img/**"
                     ).permitAll();
