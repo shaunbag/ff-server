@@ -27,7 +27,10 @@ public class EquipmentService {
                 equipment.getId(),
                 equipment.getName(),
                 equipment.getEffect(),
-                equipment.getCharacter().getId()
+                equipment.getCharacter().getId(),
+                equipment.getGivesBonus(),
+                equipment.getBonus(),
+                equipment.getSkill()
         );
     }
 
@@ -44,6 +47,9 @@ public class EquipmentService {
         equipment.setName(equipmentDto.name());
         equipment.setEffect(equipmentDto.effect());
         equipment.setCharacter(characterRepository.getReferenceById(equipmentDto.characterId()));
+        equipment.setGivesBonus(equipmentDto.givesBonus());
+        equipment.setBonus(equipment.getBonus());
+        equipment.setSkill(equipment.getSkill());
         return equipmentToDto(equipmentRepository.save(equipment));
     }
 
