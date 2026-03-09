@@ -53,7 +53,7 @@ class PotionServiceTest {
     void potionToDto() {
 
         // Arrange
-        PotionDto testDto = new PotionDto("Potion of healing", "Heals 1 Stamina", 1L, false, null ,null);
+        PotionDto testDto = new PotionDto(1L,"Potion of healing", "Heals 1 Stamina", 1L, false, null ,null);
 
         // Act
         PotionDto dto = potionService.potionToDto(testPotion);
@@ -69,7 +69,7 @@ class PotionServiceTest {
         // Arrange
         when(potionRepository.findByCharacterId(1L))
                 .thenReturn(List.of(testPotion));
-        PotionDto testDto = new PotionDto("Potion of healing","Heals 1 Stamina", testCharacter.getId(), false, null ,null);
+        PotionDto testDto = new PotionDto(1L, "Potion of healing","Heals 1 Stamina", testCharacter.getId(), false, null ,null);
 
         // Act
         List<PotionDto> potionDtos = potionService.findPotionByCharacterId(1L);

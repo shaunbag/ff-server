@@ -25,6 +25,7 @@ public class PotionService {
 
     public PotionDto potionToDto(Potion potion){
         return new PotionDto(
+                potion.getId(),
                 potion.getName(),
                 potion.getEffect(),
                 potion.getCharacter().getId(),
@@ -49,7 +50,7 @@ public class PotionService {
         potion.setCharacter(characterRepository.getReferenceById(potionDto.characterId()));
         potion.setGivesBonus(potionDto.givesBonus());
         potion.setBonus(potionDto.bonus());
-        potion.setSkill(potion.getSkill());
+        potion.setSkill(potionDto.skill());
         return potionToDto(potionRepository.save(potion));
     }
 
