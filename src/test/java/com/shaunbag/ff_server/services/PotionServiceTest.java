@@ -42,6 +42,9 @@ class PotionServiceTest {
         testPotion.setName("Potion of healing");
         testPotion.setEffect("Heals 1 Stamina");
         testPotion.setCharacter(testCharacter);
+        testPotion.setGivesBonus(false);
+        testPotion.setBonus(null);
+        testPotion.setSkill(null);
         testPotion.setId(1L);
 
     }
@@ -50,7 +53,7 @@ class PotionServiceTest {
     void potionToDto() {
 
         // Arrange
-        PotionDto testDto = new PotionDto("Potion of healing", "Heals 1 Stamina", 1L);
+        PotionDto testDto = new PotionDto("Potion of healing", "Heals 1 Stamina", 1L, false, null ,null);
 
         // Act
         PotionDto dto = potionService.potionToDto(testPotion);
@@ -66,7 +69,7 @@ class PotionServiceTest {
         // Arrange
         when(potionRepository.findByCharacterId(1L))
                 .thenReturn(List.of(testPotion));
-        PotionDto testDto = new PotionDto("Potion of healing","Heals 1 Stamina", testCharacter.getId());
+        PotionDto testDto = new PotionDto("Potion of healing","Heals 1 Stamina", testCharacter.getId(), false, null ,null);
 
         // Act
         List<PotionDto> potionDtos = potionService.findPotionByCharacterId(1L);
