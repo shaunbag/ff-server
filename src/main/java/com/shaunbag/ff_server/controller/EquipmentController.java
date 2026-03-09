@@ -25,6 +25,11 @@ public class EquipmentController {
         return ResponseEntity.ok(equipmentService.save(equipmentDto));
     }
 
+    @PostMapping("/equipment/{id}")
+    public ResponseEntity<EquipmentDto> updateEquipment(@PathVariable Long id, @RequestBody EquipmentDto equipmentDto){
+        return ResponseEntity.ok(equipmentService.updateEquipmentById(id, equipmentDto));
+    }
+
     @DeleteMapping("/equipment/{id}")
     public ResponseEntity<String> deleteEquipmentById(@PathVariable Long id){
         equipmentService.deleteById(id);

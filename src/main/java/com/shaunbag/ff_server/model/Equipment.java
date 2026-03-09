@@ -29,6 +29,9 @@ public class Equipment {
     @Nullable
     private String skill;
 
+    @Column(name = "in_use")
+    private Boolean inUse;
+
     @ManyToOne
     @JoinColumn(name = "character_id")
     private Character character;
@@ -37,13 +40,14 @@ public class Equipment {
 
     }
 
-    public Equipment(String name, String effect, Character character, Boolean givesBonus, @Nullable Integer bonus, @Nullable String skill){
+    public Equipment(String name, String effect, Character character, Boolean givesBonus, @Nullable Integer bonus, @Nullable String skill, Boolean inUse){
         this.name = name;
         this.effect = effect;
         this.character = character;
         this.givesBonus = givesBonus;
         this.bonus = bonus;
         this.skill = skill;
+        this.inUse = inUse;
     }
 
     public Long getId() {
@@ -102,5 +106,13 @@ public class Equipment {
 
     public void setSkill(@Nullable String skill) {
         this.skill = skill;
+    }
+
+    public Boolean getInUse() {
+        return inUse;
+    }
+
+    public void setInUse(Boolean inUse) {
+        this.inUse = inUse;
     }
 }
