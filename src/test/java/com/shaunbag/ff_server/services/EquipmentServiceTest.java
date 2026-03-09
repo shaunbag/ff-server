@@ -39,14 +39,14 @@ class EquipmentServiceTest {
         testCharacter = new Character("TestHero", 10, 8, 20, 15, 10);
         testCharacter.setId(1L);
 
-        testEquipment = new Equipment("Sword", "Makes you hit Harder +1", testCharacter);
+        testEquipment = new Equipment("Sword", "Makes you hit Harder +1", testCharacter, false, null ,null);
         testEquipment.setId(1L);
     }
 
     @Test
     void equipmentToDto() {
         // Arrange
-        EquipmentDto testDto = new EquipmentDto(1L, "Sword", "Makes you hit Harder +1", testCharacter.getId());
+        EquipmentDto testDto = new EquipmentDto(1L, "Sword", "Makes you hit Harder +1", testCharacter.getId(), false, null ,null);
         // Act
         EquipmentDto dto = equipmentService.equipmentToDto(testEquipment);
 
@@ -61,7 +61,7 @@ class EquipmentServiceTest {
         // Arrange
         when(equipmentRepository.findByCharacterId(1L))
                 .thenReturn(List.of(testEquipment));
-        EquipmentDto testDto = new EquipmentDto(1L,"Sword", "Makes you hit Harder +1", testCharacter.getId());
+        EquipmentDto testDto = new EquipmentDto(1L,"Sword", "Makes you hit Harder +1", testCharacter.getId(), false, null ,null);
 
         // Act
         List<EquipmentDto> equipmentDtos = equipmentService.getEquipmentByCharacterId(1L);
